@@ -1,0 +1,189 @@
+---
+title: "Automating Data Analysis and Reporting with Quarto"
+subtitle: "Leveraging Quarto and R for Dynamic Document Generation, Data Visualization, and Advanced Statistical Analysis Using the Setif Template"
+date: 01 January 2025
+version: 0.1
+authors: 
+  - name: Khalil AMARDJIA
+    affiliation: My fancy job title.
+    email: myemail@email.com
+  - name: Second author
+    affiliation: another affiliation
+    email: secondauthor@email.com
+  - name: Third author
+    affiliation: my affiliation
+    email: thirdauthor@email.com
+  - name: Fourth author
+    affiliation: my affiliation
+    email: fourthauthor@email.com
+format:
+  # html:
+  #   theme: pandoc
+  #   toc: true
+  #   number-sections: true
+  #   max-width: 50em
+  #   mainfont: "Latin Modern Roman"
+  simplereport-typst:
+    toc: true
+
+keep-typ: false
+bibliography: "bibliography/ref.bib"
+---
+
+# Introduction
+
+This document aims at demonstrating the capabilities of Quarto's document automation. The document is based on the [simplereport](https://github.com/KhalilAMARDJIA/SimpleReport) template. 
+
+# Code blocks using R
+
+
+## Tables {#sec-tables}
+
+
+```{R}
+#| label: tbl-mtcars
+#| tbl-cap: "mtcars R dataset"
+
+mtcars |> 
+  knitr::kable() 
+```
+
+
+```{R}
+#| label: tbl-arrests
+#| tbl-cap: "USArrests R dataset from the datasets package"
+
+USArrests  |> 
+  knitr::kable() 
+```
+
+## Raw outputs
+
+```{R}
+glm <- glm(mpg ~ disp, data = mtcars)
+glm
+```
+
+{{< pagebreak >}}
+
+## Plots
+
+### Base R plots
+
+In this example, we plot the relationship between displacement and miles per gallon based on the mtcars dataset using the `plot()` function.
+
+```{R}
+#| label: plot-glm
+#| fig-cap: The figure describes the relationship between displacement and miles per gallon based on the mtcars dataset
+#| fig-height: 6
+glm <- lm(mpg ~ disp, data = mtcars)
+plot(mpg ~ disp, data = mtcars) # add general linear model dashed line
+abline(glm, col = "blue", lty = 2)
+```
+
+### ggplot2 plots 
+
+In this example, we plot the relationship between displacement and miles per gallon based on the mtcars dataset using the `ggpubr` package, a wrapper around the `ggplot2` package.
+
+```{R}
+#| label: plot-ggplot2
+#| fig-cap: ggpubr figure describes the relationship between displacement and miles per gallon based on the mtcars dataset
+#| fig-height: 6
+
+# install ggplot2 package if not already installed
+if (!require("ggpubr")) {
+  install.packages("ggpubr")
+  library(ggpubr)
+}
+
+ggscatter(mtcars, x = "disp", y = "mpg", shape = 1,
+          add = "reg.line", 
+          conf.int = TRUE, 
+          cor.coef = TRUE, 
+          cor.method = "pearson",
+          xlab = "Displacement", ylab = "Miles per gallon") +
+          theme_classic2() + 
+          theme(
+            panel.border = element_rect(colour = "black", fill = NA),
+          ) 
+
+
+```
+
+# Cross ref and refs
+
+## Cross references
+
+The code block presented in @sec-tables uses `R` to generate a table. The `mtcars` dataset is shown in @tbl-mtcars.
+
+## References using BibTeX
+
+This is how to reference a BibTeX entry @hazraBiostatisticsSeriesModule2016 or like this [@hazraBiostatisticsSeriesModule2016]. 
+
+# Inline code blocks for automatic reporting
+
+Here we can present an example of an inline code block. This is very useful for automatic reporting as we can use variables to include them directly in the text. For instance, the mean mpg of cars is shown  `{r} mean(mtcars$mpg)` (i.e. the previous number was generated using the `mean()` function from the `base` package).
+
+
+
+## More complex example
+
+Now lets create a new `R` function that summarizes continuous variables by pasting the mean (SD) [min and max].
+
+```{r}
+
+summary_continuous <- function(x, digits = 2) {
+  # remove any NA values*
+  x <- x[!is.na(x)]
+  output <- paste0(
+    round(mean(x), digits), 
+    " (", 
+    round(sd(x), digits), 
+    ") [", 
+    round(min(x), digits), 
+    " - ", 
+    round(max(x), digits), 
+    "]")
+  return(output)
+}
+
+```
+
+Now using the new function we can summarize the `mpg` variable from the `mtcars` dataset like so **`{r} summary_continuous(mtcars$mpg)`**.
+
+Now we can visualize the mean line in the same way as before in @fig-plot_mean.
+
+```{r}
+#| label: fig-plot_mean
+#| fig-cap: The figure shows the mean mpg of cars based on the mtcars dataset
+#| fig-height: 6
+#| warning: false
+#| echo: false
+glm <- lm(mpg ~ disp, data = mtcars)
+plot(
+  mpg ~ disp, 
+  data = mtcars, 
+  col = adjustcolor("black", alpha = 0.6),
+  xlab = "Miles per gallon", ylab = "Displacement"
+  ) 
+abline(glm, col = "blue", lty = 2)
+abline(h = mean(mtcars$mpg), col = adjustcolor("red", alpha = 0.3), lty = 1) 
+legend("topright", legend = c("GLM", "Mean"), col = c("blue", "red"), lty = c(2, 1))
+
+```
+
+
+## Some lorem ipsums to check out the typst template
+
+```{=typst}
+#for p in (100, 200, 50){
+ par( lorem(p) )
+
+}
+```
+
+# Conclusion
+This extended example document illustrates a wide range of features for creating automated reports with Quarto using the Setif template. We covered code execution, table generation, inline calculations, data visualization, and the use of custom functions to summarize data.
+
+
+
