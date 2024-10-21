@@ -34,6 +34,36 @@ bibliography: "bibliography/ref.bib"
 
 This document aims at demonstrating the capabilities of Quarto's document automation. The document is based on the [simplereport](https://github.com/KhalilAMARDJIA/SimpleReport) template. 
 
+# Simple quarto cheats
+## Unordered list
+
+- This is the first element of the list
+- This is the second element of the list
+  + This is the first nested element of the list
+  + This is the second nested element of the list
+- This is the third element of the list
+
+## Ordered list
+
+1. ordered list
+2. item 2
+    i) sub-item 1
+         A.  sub-sub-item 1
+         B.  sub-sub-item 2
+    ii) sub-item 2
+3. item 3
+
+## Task list & checklist
+
+- [ ] item 1
+- [x] item 2
+- [ ] item 3
+
+## Terms definitions
+Total Ankle Arthroplasty (TAA)
+: Total ankle arthroplasty is the procedure of removing the ankle from the body.
+
+
 # Code blocks using R
 
 

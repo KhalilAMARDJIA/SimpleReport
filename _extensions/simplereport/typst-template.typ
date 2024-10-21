@@ -170,12 +170,12 @@
         it, 
 
         font: secondary_font, 
-        weight: 500
+        weight: 400
         ))
     ]
     outline(indent: auto, depth: 5, fill: custom_outline_fill)
     
-    pagebreak()
+
   }
 
   // Set bulette list settings
