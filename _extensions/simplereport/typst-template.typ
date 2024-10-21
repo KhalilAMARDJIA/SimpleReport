@@ -14,7 +14,7 @@
   abstract: none,
   abstract-title: none,
   version: none,
-  margin: (top: 2.5cm, bottom: 4cm, left: 2.5cm, right: 2.5cm),
+  margin: (top: 4cm, bottom: 4cm, left: 4cm, right: 4cm),
   paper: "a4",
   lang: "en",
   region: "US",
@@ -157,7 +157,21 @@
 
   }
 
+  // Set bulette list settings
+  set list(
+    tight: false,
+    indent: 1.5em,
+    body-indent: 1em,
+    spacing: auto,
+    marker: ([•], [--], [○], [‣]))
 
+  // Set number list settings
+  set enum(
+    tight: false,
+    indent: 1.5em,
+    body-indent: 1em,
+    spacing: auto,
+  )
 
 
   // links settings
