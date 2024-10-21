@@ -46,6 +46,7 @@
 
   ///////////////////////////// Text settings ////////////////////////////
   set par(justify: true)
+  set block(spacing: 1.5em) // space between paragraphs
   set text(lang: lang,
            region: region,
            font: font,
@@ -68,6 +69,24 @@
     it
     v(1em)
     }
+  show heading.where(level: 3): it => [
+    #set text(fill: main_color.darken(50%), weight: 400, size: 1em, font: secondary_font)
+
+    #block(
+      smallcaps(it),
+      inset: (top: 0.5em, bottom: 0.5em, rest: 0em),
+
+    )
+    #v(0.8em)
+  ]
+
+
+  show heading.where(level: 4): set text( weight: 300, size: 1em)
+  show heading.where(level: 5): set text( weight: 300, size: 1em)
+  show heading.where(level: 6): set text( weight: 300, size: 1em)
+  show heading.where(level: 7): set text( weight: 300, size: 1em)
+  show heading.where(level: 8): set text( weight: 300, size: 1em)
+  
 
   // title settings
   if title != none {
@@ -137,24 +156,26 @@
     )
   }
 
+// add table of content
   let custom_outline_fill = box(width: 1fr, repeat(" ."))
-  // table of contents settings
+  context {
+    show outline.entry: it =>{
+    text([#it], size: 1em)
+  }
+    
+  
+    show outline.entry.where(level: 1): it => [
+      #v(0.2em)
+      #strong(text(
+        it, 
 
-  context { 
-    show outline.entry.where(level: 1): it => { 
-      v(0.2em)
-      set text(font: secondary_font, weight: 600)
-      box(it.body, width: 1fr)
-      text(it.page)
-      
-      }
-    let outline_title = box(text([Table of contents], size: 1.2em, weight: 600), inset: (bottom: 1.5em, rest: 0em))
-    outline(
-      fill: custom_outline_fill, 
-      indent: auto,
-      title: outline_title,
-      )
-
+        font: secondary_font, 
+        weight: 500
+        ))
+    ]
+    outline(indent: auto, depth: 5, fill: custom_outline_fill)
+    
+    pagebreak()
   }
 
   // Set bulette list settings
@@ -172,6 +193,7 @@
     body-indent: 1em,
     spacing: auto,
   )
+
 
 
   // links settings
